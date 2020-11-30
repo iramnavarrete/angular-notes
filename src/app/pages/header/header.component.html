@@ -1,0 +1,21 @@
+<div  *ngIf="!isLogged; else viewHeader">
+
+</div>
+
+<ng-template #viewHeader>
+    <mat-toolbar color="primary">
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>
+            Notes
+        </span>
+        <span class="spacer"></span>
+        <div>
+            <a mat-button (click)="onLogout()" >Logout</a>
+            <a mat-button routerLink="home">Home</a>
+            <a mat-button routerLink="/notes">Notes</a>
+        </div>
+    </mat-toolbar>
+</ng-template>
+

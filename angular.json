@@ -30,7 +30,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/masonry-layout/dist/masonry.pkgd.js"
+            ]
           },
           "configurations": {
             "production": {
