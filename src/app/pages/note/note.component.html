@@ -1,105 +1,57 @@
-<!-- <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-    <div *ngFor="let note of notes; " class="flex flex-col overflow-hidden rounded-lg">
-        <h4 class="text-lg p-3 text-align-left font-serif  text-white bg-green-900 ">
-            {{ note.title}} </h4>
-        <div class="flex flex-1 flex-col justify-between bg-green-600 auto-rows-auto ">
-            <p class="text-sm justify-around p-3 ml-3 text-white font-serif ">
-                {{note.description}}
-            </p>
+<div id="loading" *ngIf="!finished">
+    <mat-spinner></mat-spinner>
+</div>
 
-            <div class="flex justify-end flex-wrap mx-3 pb-2 " id="tags" style="vertical-align: bottom;">
-                <div *ngFor="let tag of note.tags; "
-                    class="rounded-full px-2 py-1 border-solid border-2 border-white w-auto text-white text-xs m-1">
-                    {{tag}}
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- <button (click)="createOrEditNote()">
+    click
+</button> -->
 
-</div> -->
+<div class="div-new-note" *ngIf="finished">
+    <mat-card color="accent" class="new-note" (click)="createOrEditNote()">Create new note...</mat-card>
+</div>
+<div class="grid" #grid (mouseenter)="closeSidebar()" (click)="closeSidebar()">
+    <!-- <div class="open-sidebar" (mouseenter)="openSidebar()">
 
+    </div> -->
+    <div class="" *ngFor="let note of notes" #notesContainer >
 
-
-<!-- <ngx-masonry class="masonry">
-    <div ngxMasonryItem class="trans" *ngFor="let note of notes">
-        <div>
-            <img src="assets/clip.png" style="margin-left: 40px;" width="40px" alt="">
-
-        </div>
-        <div>
-
-
-            <div class="note">
-                <div class="header-note bg-green-700">
-                    <div class="text-header">
-                        {{note.title}}
-
-                    </div>
-
-                </div>
-                <div class="text-description">
-                    {{note.description}}
-                </div>
-
-                <div class="tags" id="tags">
-                    <div *ngFor="let tag of note.tags; " class="tag">
-                        {{tag}}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</ngx-masonry> -->
-
-
-
-<div class="grid" #grid>
-    <div class="" *ngFor="let note of notes">
 
 
         <div class="note">
-            <div>
-                <img id="img" src="assets/clip.png" style="margin-left: 40px;" width="40px" alt="">
 
-            </div>
-            <div class="note-content">
-                <div class="header-note">
-                    <div class="text-header">
-                        {{note.title}}
-    
+            <mat-card class="note-content"  (click)="createOrEditNote(note)">
+                <button mat-icon-button class="close-note" matTooltip="Delete note" matTooltipPosition="below" (click)="deleteNote(note.id)">
+                    <mat-icon>
+                        close
+                    </mat-icon>
+                </button>
+                <mat-card-header class="header-note">
+                    <mat-card-title class="text-header">
+                        {{note.titleReduced ? note.titleReduced : note.title}}
+                    </mat-card-title>
+
+                </mat-card-header>
+
+                <mat-card-content class="content" >
+                    <div class="text-description">
+                        {{note.descriptionReduced ? note.descriptionReduced : note.description}}
+                    
                     </div>
-    
-                </div>
-                <div class="text-description">
-                    {{note.description}}
-                </div>
-    
-                <div class="tags" id="tags">
-                    <div *ngFor="let tag of note.tags; " class="tag">
-                        {{tag}}
+
+                    <div class="tags" id="tags">
+                        <div *ngFor="let tag of note.tags; " class="tag" (click)="removeTag(tag, note.id)" #tag>
+                            {{tag}}
+                            
+                                    <button class="delete-tag" mat-icon-button  >
+                                        <mat-icon style="font-size: 14px;"  matTooltip="Delete tag" matTooltipPosition="above">
+                                            close
+                                        </mat-icon>
+                                    </button>
+                            
+                        </div>
                     </div>
-                </div>
-            </div>
+                </mat-card-content>
+            </mat-card>
         </div>
-    </div>
-</div>
 
-<!-- <ngx-masonry>
-    <div ngxMasonryItem class="trans w-64 m-1" *ngFor="let note of notes">
-        <h4 class="text-lg p-3 text-align-left font-serif  text-white bg-green-900 ">
-            {{ note.title}} </h4>
-        <div class="flex flex-1 flex-col justify-between bg-green-600 auto-rows-auto ">
-            <p class="text-sm justify-around p-3 ml-3 text-white font-serif ">
-                {{note.description}}
-            </p>
-
-            <div class="flex justify-end flex-wrap mx-3 pb-2 " id="tags" style="vertical-align: bottom;">
-                <div *ngFor="let tag of note.tags; "
-                    class="rounded-full px-2 py-1 border-solid border-2 border-white w-auto text-white text-xs m-1">
-                    {{tag}}
-                </div>
-            </div>
-        </div>
     </div>
-</ngx-masonry> -->

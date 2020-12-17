@@ -20,12 +20,13 @@
                             </mat-icon>
                         </a>
                         <mat-error *ngIf="isValid('password')" #pass>
-                            {{ !auth ? getErrorMessage('password') : "Password invalid" }}
+                            {{  getErrorMessage('password') }}
                         </mat-error>
+                        
                     </mat-form-field>
-                    <mat-error *ngIf="!auth">
-                        Password incorrect
-                    </mat-error>
+                    <mat-error *ngIf="!response">
+                            Server unavaliable
+                        </mat-error>
                     <button [disabled] = "loginForm.invalid" type="submit" mat-raised-button color="primary" class="button-login">
                         Login
                     </button>

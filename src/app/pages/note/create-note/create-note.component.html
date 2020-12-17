@@ -1,0 +1,77 @@
+<mat-dialog-content>
+    <div class="edit-create-note">
+
+        <form autocomplete="off" [formGroup]="noteForm">
+            <div class="header-content">
+                <textarea min-rows="1" maxlength="110" rows="1" class="header" placeholder="Title" #title
+                    formControlName="title"></textarea>
+
+                <div class="button-close" >
+                    <button mat-dialog-close mat-icon-button tabindex="-1">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+            </div>
+            
+            <div *ngIf="errorTitle" class="error-text" >
+                Error
+            </div>
+            <textarea formControlName="description" placeholder="Description" #description class="description" rows="30"></textarea>
+            
+            <!-- <div class="tags"> -->
+                <div *ngIf="data" class="tags">
+                    <div *ngFor="let tag of data.tags; " class="tag"  #tag>
+                        {{tag}}
+                        
+                                <button class="delete-tag" mat-icon-button  >
+                                    <mat-icon matTooltip="Delete tag" matTooltipPosition="above"  style="font-size: 14px;">
+                                        close
+                                    </mat-icon>
+                                </button>
+                        
+                    </div>
+                </div>
+            <!-- </div> -->
+            
+            <mat-dialog-actions >
+                <div class="actions" >
+                    <!-- <div class="colors">
+                        <div class="color-item grey">
+
+                        </div>
+                        <div class="color-item red">
+
+                        </div>
+                        <div class="color-item blue">
+
+                        </div>
+                        <div class="color-item green">
+
+                        </div>
+                        <div class="color-item brown">
+
+                        </div>
+                        <div class="color-item purple">
+
+                        </div>
+                    </div> -->
+                    <button mat-dialog-close mat-icon-button class="item">
+                        <mat-icon>color_lens</mat-icon>
+                    </button>
+                    <button mat-dialog-close mat-icon-button class="item" >
+                        <mat-icon matTooltip="Archive note" matTooltipPosition="above">archive</mat-icon>
+                    </button>
+                    <button mat-dialog-close mat-icon-button class="item" >
+                        <mat-icon matTooltip="Add tag" matTooltipPosition="above">label</mat-icon>
+                    </button>
+                    <button mat-dialog-close mat-icon-button class="item" >
+                        <mat-icon matTooltip="Delete note" matTooltipPosition="above">delete</mat-icon>
+                    </button>
+                </div>
+                <button mat-flat-button #save (click)="onSave()" mat-dialog-close class="button-save">
+                    Save
+                </button>
+            </mat-dialog-actions>
+        </form>
+    </div>
+</mat-dialog-content>

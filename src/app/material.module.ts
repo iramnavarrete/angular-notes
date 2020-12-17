@@ -7,7 +7,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const myModules = [
     MatToolbarModule,
@@ -17,7 +19,10 @@ const myModules = [
     MatListModule,
     MatIconModule,
     MatCardModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatTooltipModule
 ]
 @NgModule({
     imports: [...myModules],

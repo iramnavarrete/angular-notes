@@ -1,0 +1,192 @@
+.edit-create-note {
+    width: 500px;
+    height: 400px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.header-content {
+    width: 100%;
+    background-color: red;
+    // position: fixed;
+    display: flex;
+
+    .button-close {
+        // position: relative;
+        color: white;
+        margin-left: auto;
+    }
+}
+
+.error-text {
+    color: red;
+    font-size: small;
+}
+
+.header {
+    // flex-flow: row;
+    // position: relative;
+    top: 0.75rem;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    border-radius: 20px;
+    width: 180px;
+    min-height: 20px;
+    max-height: 100px;
+    overflow: hidden;
+    // height:auto;
+    max-width: 85%;
+    // max-height: 100px;
+    background-color: hsl(199, 29%, 29%);
+    outline: none;
+    border: 0;
+    color: white;
+    font-size: 20px;
+    padding-top: 5px;
+    padding-left: 10px;
+    resize: none;
+    // display: table;
+    // vertical-align: middle;
+
+    &::placeholder {
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        color: white;
+        font-size: 20px;
+        opacity: 0.5;
+    }
+}
+
+.description {
+    // position: relative;
+    background-color: transparent;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    margin: 15px ;
+    color: white;
+    width: 95%;
+    height: 15rem;
+    font-size: 16px;
+    outline: none;
+    resize: none;
+    border: 0;
+
+    &::placeholder {
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        color: white;
+        font-size: 16px;
+        opacity: 0.5;
+    }
+}
+
+mat-dialog-actions {
+    bottom: 15px;
+    // position: fixed;
+    // margin-bottom: 15px;
+    display: flex;
+    .actions {
+        // position: relative;
+        display: flex;
+        justify-content: flex-start;
+        color: white;
+        flex: 1 0 auto;
+        // margin-bottom: 10px;
+
+        .item {
+            margin: auto 10px;
+        }
+    }
+    .button-save {
+        display: inline-block;
+        justify-content: flex-end;
+        position: relative;
+    }
+}
+
+.colors {
+    display: flex;
+    flex-wrap: wrap;
+    height: 60px;
+    width: 60px;
+    visibility: hidden;
+    // background-color: white;
+
+    .color-item {
+        border-radius: 100%;
+        height: 10px;
+        width: 10px;
+        .grey {
+            background: #546e7a;
+        }
+        .blue {
+            background: #1976d2;
+        }
+        .red {
+            background: #d32f2f;
+        }
+        .purple {
+            background: #7b1fa2;
+        }
+        .brown {
+            background: #6d4c41;
+        }
+        .green {
+            background: #388e3c;
+        }
+
+        &:hover {
+            visibility: visible;
+        }
+    }
+}
+
+.tags {
+    display: flex;
+    // flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-left: 0.75rem;
+    width: 80%;
+    // padding-bottom: 0.5rem;
+
+    .tag {
+        position: relative;
+        // flex: 1;
+        border-radius: 9999px;
+        border: solid 2px;
+        // border-color: $color2;
+        width: auto;
+        font-size: 0.75rem;
+        color: white;
+        // margin-top: 1rem;
+        padding: 0.25rem;
+        background-color: transparent;
+
+        .delete-tag {
+            position: absolute;
+            visibility: hidden;
+        }
+    }
+    .tag:hover {
+        .delete-tag {
+            position: absolute;
+            visibility: visible;
+            width: auto;
+            height: auto;
+            top: 2px;
+            right: 0;
+            background-color: transparent;
+            line-height: 4px;
+        }
+    }
+}
+
+@media screen and (max-width: 662px) {
+    .edit-create-note {
+        width: 300px;
+        height: 400px;
+    }
+    .header {
+        width: 100px;
+        max-width: 80%;
+        min-height: 20px;
+        max-height: 100px;
+        overflow-y: scroll;
+    }
+}

@@ -1,8 +1,5 @@
-
-<!-- <app-note></app-note> -->
-
 <mat-sidenav-container>
-    <mat-sidenav #sidenav mode ="side">
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened">
         <mat-toolbar>
             <span color="primary">
                 Menu
@@ -11,8 +8,19 @@
         <app-sidebar></app-sidebar>
     </mat-sidenav>
     <mat-sidenav-content>
+
         <app-header (toggleSidenav)="sidenav.toggle()"></app-header>
-        <router-outlet></router-outlet>
+        <div *ngIf="!isLogged; else viewOpenSide">
+
+        </div>
+        <router-outlet>
+
+        </router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
-<!-- <router-outlet></router-outlet> -->
+
+<ng-template #viewOpenSide>
+    <div class="open-sidebar" (mouseenter)="sidenav.toggle()">
+
+    </div>
+</ng-template>

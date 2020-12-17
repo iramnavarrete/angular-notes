@@ -10,8 +10,9 @@ import { User, UserResponse } from "../../../models/user.interface";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  auth = true;
   hide = true;
+  errorMessage = ''
+  response = true
   private isValidEmail = /\S+@\S+\.\S+/;
 
   loginForm = this.fb.group({
@@ -45,15 +46,22 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription.add(this.authSvc.login(formValue).subscribe((res:UserResponse) => {
       // console.log(res.auth)
       if (res.auth) {
-        // this.auth = true
         this.router.navigate(['notes'])
       }
     },
     err => {
-      if(err = 'pass invalid') {
-        this.auth = false
-        this.loginForm.get('password').reset
-      }
+        console.log('Error message interface', err)
+        this.errorMessage = err.message
+        console.log('Error message ok', err.message)
+        if(err.status == 401){
+          this.loginForm.get('password').setErrors({incorrectPassword: true})
+        }else if(err.status == 404){
+          this.loginForm.get('email').setErrors({incorrectEmail: true})
+        }
+        else{
+          this.response = false
+          console.log('Si esntra')
+        }
     }))
   }
 
@@ -72,6 +80,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     else if (fieldAux.hasError('minLength')) {
       const minLength = fieldAux.errors?.minLength.requiredLength
       message = `Password must have ${minLength} characters.`
+    }else if(fieldAux.hasError('incorrectPassword')){
+      message = this.errorMessage
+    }else if(fieldAux.hasError('incorrectEmail')){
+      message = this.errorMessage
     }
       return message;
   }

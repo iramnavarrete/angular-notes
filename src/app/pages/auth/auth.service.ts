@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { User, UserResponse } from 'src/app/models/user.interface';
+import { LoginErrorMessage, User, UserResponse } from 'src/app/models/user.interface';
 
 import { environment } from "../../../environments/environment";
 import { catchError, map } from "rxjs/operators";
@@ -24,7 +24,7 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
   login(authData: User): Observable<UserResponse | void>{
-    return this.http.post<UserResponse>(environment.API_URL+'/users/login', authData)
+    return this.http.post<UserResponse>(environment.API_URL+'/users/login', authData, )
     .pipe(
       map((res:UserResponse) =>{
         // console.log('Res->', res);
@@ -55,15 +55,23 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
   private handleError(err): Observable<never>{
-    
-    let errorMessage = 'An error ocurred retrienving data';
+    console.log('Errorrrr',err)
+    let errorMessage: LoginErrorMessage;
     if(err){
-      
-      if (err.status == 401){
-        errorMessage = "pass invalid"
+    
+      if (!err.error.auth){
+        errorMessage = {
+          message: err.error.message,
+          status: err.status
+        }
+        console.log('Respuesta---', errorMessage)
       }
       else{
-        errorMessage = 'Error code '+ err.message;
+        errorMessage = {
+          message: 'Service unavaliable',
+          status: 503
+        }
+        ;
       }
     }
     // window.alert(errorMessage);
@@ -71,3 +79,4 @@ export class AuthService {
 
   }
 }
+
