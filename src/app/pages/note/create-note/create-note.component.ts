@@ -4,6 +4,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { ColorNote, colors, NotesResponse } from 'src/app/models/note.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotesService } from '../notes.service';
+import { take } from 'rxjs/operators';
 
 enum Action {
   NEW = 'new',
@@ -29,23 +30,25 @@ export class CreateNoteComponent implements OnInit, AfterViewInit {
   @ViewChild('save') save: ElementRef
 
   noteForm = this.fb.group({
+    id: [
+      0
+    ],
     title: [
-      '',
-      [Validators.maxLength(150)]
+      ''
     ],
     description: [
-      '',
-      [Validators.required, Validators.minLength(4),]
+      ''
     ],
     color: [
-      'grey',
-      []
+      ''
     ]
   })
 
   actionTODO = Action.NEW
 
   errorTitle = false
+
+  changeColor = false
 
   dialog = document.querySelector('.mat-dialog-container');
   constructor(
@@ -55,62 +58,29 @@ export class CreateNoteComponent implements OnInit, AfterViewInit {
     private breakpointObserver: BreakpointObserver,
     @Inject(MAT_DIALOG_DATA) public data: NotesResponse,
     private notesSvc: NotesService
-  ) { }
+  ) {
+
+  }
 
 
 
   ngAfterViewInit(): void {
 
-    let previousValue = 0
-    const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 662px)');
-    // console.log(isSmallScreen)
-    let width = 200
-    let lengthTitle = 15
-    if (isSmallScreen) {
-      lengthTitle = 5
+    if (this.data?.id) {
+      this.noteForm.patchValue({
+        title: this.data?.title,
+        description: this.data?.description,
+        color: this.data?.color
+      })
+      this.changeSizeHeader(this.data?.title)
     }
 
     this.noteForm.get('title').valueChanges.subscribe((value: string) => {
-
-      this.errorTitle = false
-      this.renderer.setAttribute(this.title.nativeElement, 'rows', `1`)
-
-      let _baseScrollHeight = this.title.nativeElement['scrollHeight']
-      let rows
-
-
-      if (_baseScrollHeight > 80) {
-        rows = Math.ceil((_baseScrollHeight / 25))
-      } else {
-        rows = Math.ceil((_baseScrollHeight / 25) - 1)
-      }
-      this.renderer.setAttribute(this.title.nativeElement, 'rows', `${rows}`)
-
-      if (value.length > lengthTitle) {
-        if (previousValue >= value.length) {
-          width = width - 15
-
-        } else {
-          width = width + 15
-        }
-        console.log(width)
-        this.renderer.setStyle(this.title.nativeElement, 'width', `${width}px`)
-        // rows = 1
-        // this.renderer.setAttribute(this.title.nativeElement, 'rows', `${rows}`)
-        previousValue = value.length
-      } else {
-        width = 200
-
-        this.renderer.setStyle(this.title.nativeElement, 'width', `${width}px`)
-      }
-
-      if (value.length >= 110) {
-        this.errorTitle = true
-      }
-
+      this.changeSizeHeader(value)
     })
 
-    if (this.data?.color) {
+
+    if (this.data?.id) {
       this.background(this.data.color)
       this.actionTODO = Action.EDIT
 
@@ -121,9 +91,57 @@ export class CreateNoteComponent implements OnInit, AfterViewInit {
 
   }
 
+  changeSizeHeader(value: string) {
+
+    this.renderer.setStyle(this.title.nativeElement, 'border', '0px')
+    const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 662px)');
+    // console.log(isSmallScreen)
+    let width = 200
+    let lengthTitle = 15
+    // if (isSmallScreen) {
+    //   lengthTitle = 5
+    // }
+
+    this.errorTitle = false
+    this.renderer.setAttribute(this.title.nativeElement, 'rows', `1`)
+
+    let _baseScrollHeight = this.title.nativeElement['scrollHeight']
+    let rows
+
+
+    console.log(_baseScrollHeight, 'scroll')
+    if (_baseScrollHeight > 80) {
+      rows = Math.ceil((_baseScrollHeight / 25))
+    } else {
+      rows = Math.ceil((_baseScrollHeight / 25) - 1)
+    }
+    if(rows <= 3){
+      this.renderer.setAttribute(this.title.nativeElement, 'rows', `${rows}`)
+    }else{
+      this.renderer.setAttribute(this.title.nativeElement, 'rows', '3')
+    }
+
+    if (value.length > lengthTitle) {
+      width = value.length * 10 + 20
+      this.renderer.setStyle(this.title.nativeElement, 'width', `${width}px`)
+      // previousValue = value.length
+    }
+    
+    else {
+      width = 200
+
+      this.renderer.setStyle(this.title.nativeElement, 'width', `${width}px`)
+    }
+
+    if (value.length >= 110) {
+      this.errorTitle = true
+      this.renderer.setStyle(this.title.nativeElement, 'border', '2px solid white')
+    }
+  }
+
   background(colorName: string) {
     // console.log(this.dialog.childNodes)
-
+    this.noteForm.patchValue({color: colorName})
     const rgb = colors.find(rgbColor => rgbColor.name === colorName)
     this.renderer.setStyle(this.dialog.childNodes[0]['parentElement'], 'backgroundColor', rgb.primaryColor)
     this.renderer.setStyle(this.title.nativeElement, 'backgroundColor', rgb.accentColor)
@@ -143,41 +161,25 @@ export class CreateNoteComponent implements OnInit, AfterViewInit {
   }
 
   onSave() {
+    const formValue = this.noteForm.value
+    
+    if (this.actionTODO === Action.NEW) {
+      formValue.edit = false
+      // let note = {}
+      console.log(formValue, 'Data que se envía')
+      this.dialogRef.close(formValue)
 
-    if (this.actionTODO = Action.NEW) {
-      const formValue = this.noteForm.value
-      this.notesSvc.createNote(formValue).toPromise().then(
-        (data: NotesResponse) => {
-          if (data) {
-            if (data.title.length > 50)
-              data.titleReduced = data.title.substring(0, 50)
-            if (data.description.length > 450)
-              data.descriptionReduced = data.description.substring(0, 450) + '...'
-            console.log(data)
-            this.dialogRef.close(data)
-          }
-        }
-      )
-      // console.log(data, 'data antes del if')
-      // setTimeout( //Timeout to safe server response
-      //   () =>{
-
-      //   }, 100
-      // )
-
-    }else {
-      console.log('edit')
+    } else {
+      formValue.id = this.data?.id
+      console.log(formValue)
+      formValue.edit = true
+      this.dialogRef.close(formValue)
     }
   }
 
   ngOnInit(): void {
-    // console.log(this.data)
-    if (this.data?.id) {
-      this.noteForm.patchValue({
-        title: this.data?.title,
-        description: this.data?.description
-      })
-    }
+    // console.log(this.data) 
+
   }
 
   print() {

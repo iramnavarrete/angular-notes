@@ -47,17 +47,12 @@ mat-sidenav-container {
   height: 100%;
 }
 
-mat-dialog-container {
-  // position: absolute;
-  // background: red;
-  border-radius: 20px;
-  height: 90vh !important;
-  // max-height: 90vh;
-  max-height: none !important;
+.full-screen-modal .mat-dialog-container {
+  max-width: none;
 }
-.mat-dialog-container{
-  // height: none !important;
-}
+// .mat-dialog-container { 
+//   // height: none !important;
+// }
 
 @keyframes slideInFromBottom {
   0% {

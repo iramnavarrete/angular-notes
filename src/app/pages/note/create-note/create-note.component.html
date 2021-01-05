@@ -14,9 +14,9 @@
             </div>
             
             <div *ngIf="errorTitle" class="error-text" >
-                Error
+                Limit is 110 characters!!
             </div>
-            <textarea formControlName="description" placeholder="Description" #description class="description" rows="30"></textarea>
+            <textarea formControlName="description" placeholder="Description" #description class="description" ></textarea>
             
             <!-- <div class="tags"> -->
                 <div *ngIf="data" class="tags">
@@ -32,31 +32,18 @@
                     </div>
                 </div>
             <!-- </div> -->
-            
+            <div class="colors" *ngIf="changeColor">
+                <div class="color-item" style="background: #546e7a;" matTooltip="Grey" matTooltipPosition="below" (click)="background('grey')"></div>
+                <div class="color-item " style="background: #1976d2;" matTooltip="Blue" matTooltipPosition="below" (click)="background('blue')"></div>
+                <div class="color-item " style="background: #d32f2f;" matTooltip="Red" matTooltipPosition="below" (click)="background('red')"></div>
+                <div class="color-item" style="background: #7b1fa2;" matTooltip="Purple" matTooltipPosition="below" (click)="background('purple')"></div>
+                <div class="color-item " style="background: #6d4c41;" matTooltip="Brown" matTooltipPosition="below" (click)="background('brown')"></div>
+                <div class="color-item" style="background: #388e3c;" matTooltip="Green" matTooltipPosition="below" (click)="background('green')"></div>
+            </div>
             <mat-dialog-actions >
                 <div class="actions" >
-                    <!-- <div class="colors">
-                        <div class="color-item grey">
-
-                        </div>
-                        <div class="color-item red">
-
-                        </div>
-                        <div class="color-item blue">
-
-                        </div>
-                        <div class="color-item green">
-
-                        </div>
-                        <div class="color-item brown">
-
-                        </div>
-                        <div class="color-item purple">
-
-                        </div>
-                    </div> -->
-                    <button mat-dialog-close mat-icon-button class="item">
-                        <mat-icon>color_lens</mat-icon>
+                    <button  mat-icon-button class="item">
+                        <mat-icon matTooltip="Change color note" matTooltipPosition="above" (click)="changeColor = !changeColor">color_lens</mat-icon>
                     </button>
                     <button mat-dialog-close mat-icon-button class="item" >
                         <mat-icon matTooltip="Archive note" matTooltipPosition="above">archive</mat-icon>
@@ -72,6 +59,7 @@
                     Save
                 </button>
             </mat-dialog-actions>
+            
         </form>
     </div>
 </mat-dialog-content>

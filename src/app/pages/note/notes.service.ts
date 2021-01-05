@@ -90,6 +90,23 @@ export class NotesService {
     )
   }
 
+  updateNote(user: any): Observable<any>{
+    return this.http.patch<any>(`${environment.API_URL}/notes/updateNote`, user, this.options = {
+      headers: this.headers
+    }).pipe(
+      map(
+        (res) =>{
+          // console.log(res)
+          return res.body
+        }
+      ),
+      catchError( (err) => {
+        console.log('Error on updateNote()')
+        return this.handleError(err)
+      })
+      )
+  }
+
   private handleError(err): Observable<never>{
     console.log('Errorrrr',err)
     let errorMessage: StatusMessage;

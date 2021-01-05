@@ -22,7 +22,7 @@ export interface ColorNote{
   
 export var 
     colors: ColorNote[] = [
-        {name:"red", primaryColor: "#d32f2f", accentColor: '#ab000d'},
+        {name:"red", primaryColor: "#c62828", accentColor: '#ab000d'},
         {name:"blue", primaryColor: "#1976d2", accentColor: '#005cb2'},
         {name:"green", primaryColor: "#388e3c", accentColor: '#00701a'},
         {name:"brown", primaryColor: "#6d4c41", accentColor: '#4b2c20'},
