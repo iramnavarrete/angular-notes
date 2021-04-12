@@ -1,37 +1,95 @@
 <div class="background">
 
     <div class="login-form">
-        <mat-card>
-            <mat-card-content>
+        <ngx-flip [flip]="flip">
+            <mat-card front>
+                <mat-card-content>
 
-                <h1>Login</h1>
-                <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-                    <mat-form-field class="full-width-input">
-                        <input type="text" matInput placeholder="Email" required formControlName="email">
-                        <mat-error *ngIf="isValid('email')">
-                            {{getErrorMessage("email")}}
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="full-width-input">
-                        <input [type]="hide ? 'password' : 'text'" matInput placeholder="Password" required formControlName="password">
-                        <a mat-icon-button matSuffix (click)="hide = !hide">
-                            <mat-icon>
-                                {{hide ? "visibility_off" : "visibility"}}
-                            </mat-icon>
-                        </a>
-                        <mat-error *ngIf="isValid('password')" #pass>
-                            {{  getErrorMessage('password') }}
-                        </mat-error>
-                        
-                    </mat-form-field>
-                    <mat-error *ngIf="!response">
+                    <h1>Login</h1>
+                    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+                        <mat-form-field class="full-width-input">
+                            <input type="text" matInput placeholder="Email" required formControlName="email">
+                            <mat-error *ngIf="isValid('email')">
+                                {{getErrorMessage("email")}}
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width-input">
+                            <input [type]="hide ? 'password' : 'text'" matInput placeholder="Password" required
+                                formControlName="password">
+                            <a mat-icon-button matSuffix (click)="hide = !hide">
+                                <mat-icon>
+                                    {{hide ? "visibility_off" : "visibility"}}
+                                </mat-icon>
+                            </a>
+                            <mat-error *ngIf="isValid('password')" #pass>
+                                {{ getErrorMessage('password') }}
+                            </mat-error>
+
+                        </mat-form-field>
+                        <mat-error *ngIf="!response">
                             Server unavaliable
                         </mat-error>
-                    <button [disabled] = "loginForm.invalid" type="submit" mat-raised-button color="primary" class="button-login">
-                        Login
-                    </button>
-                </form>
-            </mat-card-content>
-        </mat-card>
+                        <div  class="button-container">
+                            <button [disabled]="loginForm.invalid" type="submit" mat-raised-button color="primary"
+                                class="button-login">
+                                Login
+                            </button>
+                        </div>
+                        <div style="margin-top: 2rem; display: inline-block;">
+                            <p>Do you have not account?</p>
+                            <a class="flip-button" (click)="rotate()">Create account</a>
+                        </div>
+                    </form>
+
+                </mat-card-content>
+
+            </mat-card>
+            <mat-card back>
+                <mat-card-content>
+
+                    <h1>Register</h1>
+                    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+                        <mat-form-field class="full-width-input">
+                            <input type="text" matInput placeholder="Name" required formControlName="name">
+                            <mat-error *ngIf="isValid('name', true)">
+                                {{getErrorMessage("name", true)}}
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width-input">
+                            <input type="text" matInput placeholder="Email" required formControlName="email">
+                            <mat-error *ngIf="isValid('email', true)">
+                                {{getErrorMessage("email", true)}}
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width-input">
+                            <input [type]="hide ? 'password' : 'text'" matInput placeholder="Password" required
+                                formControlName="password">
+                            <a mat-icon-button matSuffix (click)="hide = !hide">
+                                <mat-icon>
+                                    {{hide ? "visibility_off" : "visibility"}}
+                                </mat-icon>
+                            </a>
+                            <mat-error *ngIf="isValid('password', true)" #pass>
+                                {{ getErrorMessage('password', true) }}
+                            </mat-error>
+
+                        </mat-form-field>
+                        <mat-error *ngIf="!response">
+                            Server unavaliable
+                        </mat-error>
+                        <div class="button-container">
+                            <button [disabled]="registerForm.invalid" type="submit" mat-raised-button color="primary"
+                                class="button-register">
+                                Register
+                            </button>
+                        </div>
+                        <div style="margin-top: 2rem;">
+                            <a class="flip-button" (click)="rotate()">Return to Login</a>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </ngx-flip>
+
     </div>
 </div>

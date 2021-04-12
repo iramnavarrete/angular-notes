@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { LoginErrorMessage, User, UserResponse } from 'src/app/models/user.interface';
+import { LoginErrorMessage, SignUpResponse, User, UserResponse } from 'src/app/models/user.interface';
 
 import { environment } from "../../../environments/environment";
 import { catchError, map } from "rxjs/operators";
@@ -37,6 +37,22 @@ export class AuthService {
     )
 
   }
+
+  register(authData: User): Observable<SignUpResponse | void>{
+    return this.http.post<SignUpResponse>(environment.API_URL+'/users/register', authData, )
+    .pipe(
+      map((res: SignUpResponse) =>{
+        console.log('Res->', res);
+        // this.saveToken(res.token);
+        // this.loggedIn.next(true);
+        // console.log('respuesta',res)
+        return res;
+      }),
+      catchError((err) => this.handleError(err))
+    )
+
+  }
+
   logout(){
     localStorage.removeItem('token');
     this.loggedIn.next(false);
@@ -54,6 +70,7 @@ export class AuthService {
   private saveToken(token: string){
     localStorage.setItem('token', token);
   }
+
   private handleError(err): Observable<never>{
     console.log('Errorrrr',err)
     let errorMessage: LoginErrorMessage;

@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'notes', loadChildren: () =>
       import('./pages/note/note.module').then(m => m.NoteModule)
+  },
+  {
+    path: 'notes/:tag', loadChildren: () =>
+      import('./pages/note/note.module').then(m => m.NoteModule)
   }
 ];
 

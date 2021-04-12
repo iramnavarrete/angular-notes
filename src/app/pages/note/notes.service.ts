@@ -56,7 +56,7 @@ export class NotesService {
     )
   }
 
-  deleteNote(id:number): Observable<{}>{
+  sendToTrash(id:number): Observable<{}>{
     console.log(JSON.stringify({id: id}))
     return this.http.request<JSON>(
       'patch',
@@ -68,6 +68,23 @@ export class NotesService {
     ).pipe(
       catchError((err) => {
         console.log(err, 'Error en deleteNote()')
+        return this.handleError(err)
+      })
+    )
+  }
+
+  deleteNote(id: number):Observable<any>{
+    return this.http.post<any>(`${environment.API_URL}/notes/createNote`, id, this.options = {
+      headers: this.headers
+    }).pipe(
+      map(
+        (res) =>{
+          // console.log(res)
+          return res.body
+        }
+      ),
+      catchError( (err) => {
+        console.log('Error on createNote()')
         return this.handleError(err)
       })
     )
@@ -96,12 +113,80 @@ export class NotesService {
     }).pipe(
       map(
         (res) =>{
-          // console.log(res)
+          console.log(res)
           return res.body
         }
       ),
       catchError( (err) => {
         console.log('Error on updateNote()')
+        return this.handleError(err)
+      })
+      )
+  }
+
+  getTags(): Observable<any>{
+    return this.http.get(`${environment.API_URL}/notes/getTags`, this.options = {
+      headers: this.headers
+    }, ).pipe(
+      map(
+        (res:string[]) =>{
+          // console.log(res)
+          return res
+        }
+      ),
+      catchError( (err) => {
+        console.log('Error on getTags()')
+        return this.handleError(err)
+      })
+      )
+  }
+
+  getNoteByTag(tag:string):Observable<any>{
+    return this.http.post(`${environment.API_URL}/notes/getNoteByTag`, {tag: tag}, this.options = {
+      headers: this.headers
+    }).pipe(
+      map(
+        (res:string[]) =>{
+          // console.log(res)
+          return res
+        }
+      ),
+      catchError( (err) => {
+        console.log('Error on getNotesByTag()')
+        return this.handleError(err)
+      })
+      )
+  }
+
+  getTrashNotes(): Observable<any>{
+    return this.http.get(`${environment.API_URL}/notes/getTrashNotes`, this.options = {
+      headers: this.headers
+    }).pipe(
+      map(
+        (res:string[]) =>{
+          // console.log(res)
+          return res
+        }
+      ),
+      catchError( (err) => {
+        console.log('Error on getTrashNotes()')
+        return this.handleError(err)
+      })
+      )
+  }
+
+  getArchivedNotes(): Observable<any>{
+    return this.http.get(`${environment.API_URL}/notes/getArchived`, this.options = {
+      headers: this.headers
+    }).pipe(
+      map(
+        (res:string[]) =>{
+          // console.log(res)
+          return res
+        }
+      ),
+      catchError( (err) => {
+        console.log('Error on getArchivedNotes()')
         return this.handleError(err)
       })
       )

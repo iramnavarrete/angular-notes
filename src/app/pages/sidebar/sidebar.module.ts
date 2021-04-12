@@ -4,12 +4,14 @@ import { SidebarComponent } from './sidebar.component';
 
 import { MaterialModule } from "../../material.module";
 import { UtilsService } from 'src/app/services/utils.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [SidebarComponent],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule
   ],
   exports: [SidebarComponent],
   providers: [UtilsService]

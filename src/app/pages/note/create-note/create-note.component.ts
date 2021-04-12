@@ -27,6 +27,7 @@ export class CreateNoteComponent implements OnInit, AfterViewInit {
   }
   @ViewChild('title') public title: ElementRef
   @ViewChildren('tag') tag: QueryList<NgModel>
+  @ViewChild('tags') tags: ElementRef
   @ViewChild('save') save: ElementRef
 
   noteForm = this.fb.group({
@@ -49,19 +50,24 @@ export class CreateNoteComponent implements OnInit, AfterViewInit {
   errorTitle = false
 
   changeColor = false
+  
+  tagsCopy = this.data.tags?.slice(0, this.data.tags.length)
 
   dialog = document.querySelector('.mat-dialog-container');
   constructor(
     public dialogRef: MatDialogRef<CreateNoteComponent>,
     private fb: FormBuilder,
-    private renderer: Renderer2,
+    private renderer: Renderer2, 
     private breakpointObserver: BreakpointObserver,
     @Inject(MAT_DIALOG_DATA) public data: NotesResponse,
-    private notesSvc: NotesService
+    private notesSvc: NotesService,
+    
   ) {
+    
 
   }
 
+  
 
 
   ngAfterViewInit(): void {
@@ -148,16 +154,20 @@ export class CreateNoteComponent implements OnInit, AfterViewInit {
     const button = this.save['_elementRef']['nativeElement']
     this.renderer.setStyle(button, 'color', 'white')
     this.renderer.setStyle(button, 'backgroundColor', rgb.accentColor)
-    this.tag.forEach((child, index) => {
-      const tag = child['nativeElement']
-      const button = child['nativeElement'].childNodes[1]
-      this.renderer.setStyle(tag, 'borderColor', rgb.accentColor)
-      this.renderer.setStyle(button, 'backgroundColor', rgb.accentColor)
 
+    this.tag.forEach((child, index) => {
+      this.changeTagColor(rgb, child)
     })
     // console.log(this.save['_elementRef']['nativeElement'])
 
 
+  }
+
+  changeTagColor(rgb, child){
+    const tag = child['nativeElement']
+    const buttonDeleteTag = child['nativeElement'].childNodes[1]
+    this.renderer.setStyle(tag, 'borderColor', rgb.accentColor)
+    this.renderer.setStyle(buttonDeleteTag, 'backgroundColor', rgb.accentColor)
   }
 
   onSave() {
@@ -177,6 +187,32 @@ export class CreateNoteComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // i = 0
+  addTag(){
+    
+    // this.data.tags.push(`${this.i++}`)
+    this.tagsCopy.push('')
+    const rgb = colors.find(rgbColor => rgbColor.name === this.data.color)
+    setTimeout(() => {
+      this.tag.forEach((child, index) => {
+        this.changeTagColor(rgb, child)
+        // console.log(child, 'child')
+      })
+      this.tag.last['nativeElement'].children[0].focus()
+
+    }, 5);
+
+    // console.log(this.tag.last)
+
+
+    
+  }
+
+  deleteTag(index: number){
+    console.log(index)
+    this.tagsCopy.splice(index, 1)
+  }
+
   ngOnInit(): void {
     // console.log(this.data) 
 
@@ -188,3 +224,6 @@ export class CreateNoteComponent implements OnInit, AfterViewInit {
 
 }
 
+
+//TODO al momento se agregan los elementos como cadena vacía, cambiar eso, o sea detectar los cambios y guardar
+//Como posibilidad, agregar un formbuilder para cada elemento del array de tags y detectar los cambios desde ahí

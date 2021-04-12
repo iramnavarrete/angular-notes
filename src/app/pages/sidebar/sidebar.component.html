@@ -1,6 +1,21 @@
 <mat-nav-list>
-    <a mat-list-item>
-        <mat-icon>notes</mat-icon>
-        <span class="nav-link">Tags</span>
+
+    <a mat-list-item routerLink="/notes">
+        <mat-icon>note</mat-icon>
+        <span class="nav-link" (click)="closeSidebar()">All notes</span>
+    </a>
+
+    <a mat-list-item *ngFor="let tag of tags" [routerLink]="['/notes', tag]" (click)="closeSidebar()">
+        <mat-icon>label</mat-icon>
+        <span class="nav-link">{{tag}}</span>
+    </a>
+
+    <a mat-list-item [routerLink]="['/notes', 'archived']" (click)="closeSidebar()">
+        <mat-icon>archive</mat-icon>
+        <span class="nav-link"> Archived</span>
+    </a>
+    <a mat-list-item [routerLink]="['/notes', 'trash']" (click)="closeSidebar()">
+        <mat-icon>delete</mat-icon>
+        <span class="nav-link"> Trash</span>
     </a>
 </mat-nav-list>

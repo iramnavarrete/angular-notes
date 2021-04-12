@@ -6,52 +6,61 @@
                 <textarea min-rows="1" maxlength="110" rows="1" class="header" placeholder="Title" #title
                     formControlName="title"></textarea>
 
-                <div class="button-close" >
+                <div class="button-close">
                     <button mat-dialog-close mat-icon-button tabindex="-1">
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
             </div>
-            
-            <div *ngIf="errorTitle" class="error-text" >
+
+            <div *ngIf="errorTitle" class="error-text">
                 Limit is 110 characters!!
             </div>
-            <textarea formControlName="description" placeholder="Description" #description class="description" ></textarea>
-            
+            <textarea formControlName="description" placeholder="Description" #description
+                class="description"></textarea>
+
             <!-- <div class="tags"> -->
-                <div *ngIf="data" class="tags">
-                    <div *ngFor="let tag of data.tags; " class="tag"  #tag>
-                        {{tag}}
-                        
-                                <button class="delete-tag" mat-icon-button  >
-                                    <mat-icon matTooltip="Delete tag" matTooltipPosition="above"  style="font-size: 14px;">
-                                        close
-                                    </mat-icon>
-                                </button>
-                        
-                    </div>
+            <div *ngIf="data" class="tags" #tags>
+                <div *ngFor="let tag of tagsCopy; index as i" class="tag" #tag>
+                    <span class="input" role="textbox" contenteditable #addTag >{{tag}}</span>
+
+                    <button class="delete-tag" mat-icon-button (click)="deleteTag(i)">
+                        <mat-icon matTooltip="Delete tag" matTooltipPosition="above" style="font-size: 14px;">
+                            close
+                        </mat-icon>
+                    </button>
+
                 </div>
+                
+            </div>
             <!-- </div> -->
             <div class="colors" *ngIf="changeColor">
-                <div class="color-item" style="background: #546e7a;" matTooltip="Grey" matTooltipPosition="below" (click)="background('grey')"></div>
-                <div class="color-item " style="background: #1976d2;" matTooltip="Blue" matTooltipPosition="below" (click)="background('blue')"></div>
-                <div class="color-item " style="background: #d32f2f;" matTooltip="Red" matTooltipPosition="below" (click)="background('red')"></div>
-                <div class="color-item" style="background: #7b1fa2;" matTooltip="Purple" matTooltipPosition="below" (click)="background('purple')"></div>
-                <div class="color-item " style="background: #6d4c41;" matTooltip="Brown" matTooltipPosition="below" (click)="background('brown')"></div>
-                <div class="color-item" style="background: #388e3c;" matTooltip="Green" matTooltipPosition="below" (click)="background('green')"></div>
+                <div class="color-item" style="background: #546e7a;" matTooltip="Grey" matTooltipPosition="below"
+                    (click)="background('grey')"></div>
+                <div class="color-item " style="background: #1976d2;" matTooltip="Blue" matTooltipPosition="below"
+                    (click)="background('blue')"></div>
+                <div class="color-item " style="background: #d32f2f;" matTooltip="Red" matTooltipPosition="below"
+                    (click)="background('red')"></div>
+                <div class="color-item" style="background: #7b1fa2;" matTooltip="Purple" matTooltipPosition="below"
+                    (click)="background('purple')"></div>
+                <div class="color-item " style="background: #6d4c41;" matTooltip="Brown" matTooltipPosition="below"
+                    (click)="background('brown')"></div>
+                <div class="color-item" style="background: #388e3c;" matTooltip="Green" matTooltipPosition="below"
+                    (click)="background('green')"></div>
             </div>
-            <mat-dialog-actions >
-                <div class="actions" >
-                    <button  mat-icon-button class="item">
-                        <mat-icon matTooltip="Change color note" matTooltipPosition="above" (click)="changeColor = !changeColor">color_lens</mat-icon>
+            <mat-dialog-actions>
+                <div class="actions">
+                    <button mat-icon-button class="item">
+                        <mat-icon matTooltip="Change color note" matTooltipPosition="above"
+                            (click)="changeColor = !changeColor">color_lens</mat-icon>
                     </button>
-                    <button mat-dialog-close mat-icon-button class="item" >
+                    <button mat-dialog-close mat-icon-button class="item">
                         <mat-icon matTooltip="Archive note" matTooltipPosition="above">archive</mat-icon>
                     </button>
-                    <button mat-dialog-close mat-icon-button class="item" >
-                        <mat-icon matTooltip="Add tag" matTooltipPosition="above">label</mat-icon>
+                    <button mat-icon-button class="item" (click)="addTag()">
+                        <mat-icon matTooltip="Add tag" matTooltipPosition="above" >label</mat-icon>
                     </button>
-                    <button mat-dialog-close mat-icon-button class="item" >
+                    <button mat-dialog-close mat-icon-button class="item">
                         <mat-icon matTooltip="Delete note" matTooltipPosition="above">delete</mat-icon>
                     </button>
                 </div>
@@ -59,7 +68,7 @@
                     Save
                 </button>
             </mat-dialog-actions>
-            
+
         </form>
     </div>
 </mat-dialog-content>

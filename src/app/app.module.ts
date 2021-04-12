@@ -12,6 +12,7 @@ import { Masonry, MasonryModule} from '@thisissoon/angular-masonry';
 import { HeaderComponent } from './pages/header/header.component';
 import { SidebarModule } from './pages/sidebar/sidebar.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 const masonryProviders = [
   { provide: Masonry, useFactory: () => window['Masonry'] },
@@ -30,6 +31,7 @@ const masonryProviders = [
     MaterialModule,
     SidebarModule,
     HttpClientModule,
+    ToastrModule.forRoot(), // ToastrModule added
     // NgxMasonryModule
     
   ],

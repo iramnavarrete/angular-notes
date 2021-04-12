@@ -90,10 +90,10 @@ mat-dialog-content{
 }
 
 mat-dialog-actions {
-    height: 15%;
+    // height: 15%;
     margin-bottom: 0;
-    // position: absolute;
-    width: 100%;
+    position: fixed;
+    width: 70%;
     // margin-bottom: 15px;
     display: flex;
     .actions {
@@ -126,7 +126,10 @@ mat-dialog-actions {
     position: absolute;
     // z-index: 1000;
     // visibility: hidden;
-    // background-color: white;
+    padding-bottom: 10px;
+    justify-content: center;
+    background-color: rgba($color: #000000, $alpha: 0.1);
+    border-radius: 50px;
 
     .color-item {
         border-radius: 100%;
@@ -149,20 +152,27 @@ mat-dialog-actions {
 
     .tag {
         position: relative;
+        display: inline;
         // flex: 1;
         border-radius: 9999px;
         border: solid 2px;
         // border-color: $color2;
         width: auto;
+        height: 19px;
+        
         font-size: 0.75rem;
         color: white;
-        // margin-top: 1rem;
+        vertical-align: middle;
+        // margin: auto;
         padding: 0.25rem;
         background-color: transparent;
 
         .delete-tag {
             position: absolute;
             visibility: hidden;
+        }
+        .input:focus{
+            outline: 0;
         }
     }
     .tag:hover {
@@ -176,6 +186,7 @@ mat-dialog-actions {
             background-color: transparent;
             line-height: 4px;
         }
+        
     }
 }
 
